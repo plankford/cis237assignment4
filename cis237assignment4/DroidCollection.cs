@@ -11,9 +11,11 @@ namespace cis237assignment4
     class DroidCollection : IDroidCollection
     {
         //Private variable to hold the collection of droids
-        private IDroid[] droidCollection;
+        private Droid[] droidCollection;
         //Private variable to hold the length of the Collection
         private int lengthOfCollection;
+
+        private Droid[] Aux = new Droid[100];
 
         //Constructor that takes in the size of the collection.
         //It sets the size of the internal array that will be used.
@@ -21,7 +23,7 @@ namespace cis237assignment4
         public DroidCollection(int sizeOfCollection)
         {
             //Make new array for the collection
-            droidCollection = new IDroid[sizeOfCollection];
+            droidCollection = new Droid[sizeOfCollection];
             //set length of collection to 0
             lengthOfCollection = 0;
         }
@@ -123,6 +125,122 @@ namespace cis237assignment4
 
             //return the completed string
             return returnString;
+        }
+
+        public void DroidsByType()
+        {
+            //Individual stacks for the droids by type
+            GenericStack<Droid> Protocols = new GenericStack<Droid>();
+            GenericStack<Droid> Astromechs = new GenericStack<Droid>();
+            GenericStack<Droid> Janitors = new GenericStack<Droid>();
+            GenericStack<Droid> Utilities = new GenericStack<Droid>();
+
+            //One single queue that will hold the sorted droids. They will be inserted by type
+            //after that have been soted into there respective stack
+            GenericQueue<Droid> DroidQueue = new GenericQueue<Droid>();
+
+            //Bubble sort for the droids by type
+            for (int i = 0; i < lengthOfCollection; i++)
+            {
+                
+                if (droidCollection[i].GetType() == typeof(ProtocolDroid))
+                {
+                    Protocols.AddToFront(droidCollection[i]);
+                }
+                if (droidCollection[i].GetType() == typeof(AstromechDroid))
+                {
+                    Astromechs.AddToFront(droidCollection[i]);
+                }
+                if (droidCollection[i].GetType() == typeof(JanitorDroid))
+                {
+                    Janitors.AddToFront(droidCollection[i]);
+                }
+                if (droidCollection[i].GetType() == typeof(UtilityDroid))
+                {
+                    Utilities.AddToFront(droidCollection[i]);
+                }
+           }
+
+                //Add the droids to the queue for further sorting and allowing printing ong
+                //only one array - this will empty the current collections and place them in
+                //a new one
+                while (Astromechs.Size > 0)
+                {
+                    DroidQueue.AddToBack(Astromechs.RemoveFromFront());
+                }
+                while (Janitors.Size > 0)
+                {
+                    DroidQueue.AddToBack(Janitors.RemoveFromFront());
+                }
+                while (Utilities.Size > 0)
+                {
+                    DroidQueue.AddToBack(Utilities.RemoveFromFront());
+                }
+                while (Protocols.Size > 0)
+                {
+                    DroidQueue.AddToBack(Protocols.RemoveFromFront());
+                }
+
+                //Reload the droid collection
+                for (int r = 0; r < lengthOfCollection; r++)
+                {
+                    droidCollection[r] = DroidQueue.RemoveFromFront();
+                }            
+        }
+
+        public void DroidsByCost()
+        {
+            SortDroidsByCost(droidCollection, 0, lengthOfCollection);
+        }
+
+        //Added to implement Icomparable
+        private void SortDroidsByCost(Droid[] droidCollection, int v, int lengthOfCollection)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void SortDroidsByCost(IComparable[] arr, int low, int high)
+        {
+            if(high <= low)
+            {
+                return;
+            }
+            int mid = low + (high - low) / 2;
+            SortDroidsByCost(arr, low, mid);
+            SortDroidsByCost(arr, mid + 1, high);
+            MergeSortedDroids(arr, low, mid, high);
+        }
+
+        private void MergeSortedDroids(IComparable[] arr, int low, int mid, int high)
+        {
+            int k = 0;
+            int l = low;
+            int j = mid + 1;
+
+            for (k = low; k <= high; k++)
+            {
+                Aux[k] = arr[k];
+            }
+
+            for(k = low; k <= high; k++)
+            {
+                if (l > mid)
+                {
+                    arr[k] = Aux[j++];
+                }
+                else if (j > high)
+                {
+                    arr[k] = Aux[j++];
+                }
+                else if (Aux[j] < Aux[j])
+                {
+                    arr[k] = Aux[j++];
+                }
+                else
+                {
+                    arr[k] = Aux[j++];
+                }
+            }
         }
     }
 }
