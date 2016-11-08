@@ -1,7 +1,7 @@
 # Assignment 4 - Interfaces, Stacks, Queues, Generics, and Merge Sort. Project uses Assignment 3 solution.
 ## Due: 11-08-2016
 
-## Author
+## Author: Patrick Lankford
 
 
 
@@ -84,11 +84,12 @@ Be sure to think about what the time complexity for the bucket sort will be. Thi
 | Total                                   | 100    |
 
 ## Outside Resources Used
+MSDN, Stack Overflow
 
 
 
 ## Known Problems, Issues, And/Or Errors in the Program
-
+Issues with the bubble sort not actually sorting and problems with the merge.
 
 
 ## Assignment 3 Description for reference
